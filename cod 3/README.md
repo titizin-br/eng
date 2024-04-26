@@ -1,0 +1,5 @@
+# código 3 = Prefira Composição a Herança
+
+A funcionalidade do código 3 é definir duas classes: Base e Derived. A classe Base tem um membro inteiro x. Já a classe Derived tem um membro do tipo Base e um membro inteiro adicional y. Na main, um objeto da classe Derived é criado. Em seguida, o membro x do objeto Derived (que é uma instância da classe Base) é definido como 10 e o membro y é definido como 20. Após isso, a função print é chamada no objeto Derived, que imprime os valores dos membros x e y do objeto. Neste exemplo, a classe Derived herda publicamente da classe Base. Isso viola o princípio de preferir composição a herança, pois a herança direta cria uma forte relação entre as classes Derived e Base, o que pode tornar o código mais rígido e menos flexível.
+Na versão que atende a este princípio a classe Derived agora possui um membro base do tipo Base, em vez de herdar diretamente de Base. Isso segue o princípio de preferir composição a herança que permite uma relação mais flexível entre as classes e facilita a manutenção e a extensibilidade do código.
+Os códigos vão estar em commits diferentes, o primeiro commit é o errado e o segundo é o certo. 
