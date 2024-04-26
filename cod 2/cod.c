@@ -1,4 +1,4 @@
-/*Princípio de Demeter - código ruim*/
+/*Princípio de Demeter - código bom*/
 
 #include <stdio.h>
 
@@ -10,12 +10,8 @@ typedef struct {
     Item item;
 } Container;
 
-Item* getInnerItem(Container* container) {
-    return &(container->item);
-}
-
 int getItemId(Container* container) {
-    return getInnerItem(container)->id;
+    return container->item.id;
 }
 
 int main() {
