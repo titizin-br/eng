@@ -1,4 +1,4 @@
-/*Prefira Composição a Herança - código ruim*/
+/*Prefira Composição a Herança - código bom*/
 
 #include <iostream>
 
@@ -7,22 +7,23 @@ public:
     int x;
 };
 
-class Derived : public Base {
+class Derived {
 public:
+    Base base; 
     int y;
-    
+
     void print() {
-        std::cout << "x: " << x << ", y: " << y << std::endl;
+        std::cout << "x: " << base.x << ", y: " << y << std::endl;
     }
 };
 
 int main() {
     Derived obj;
 
-    obj.x = 10;
+    obj.base.x = 10;
     obj.y = 20;
 
     obj.print();
-    
+
     return 0;
 }
