@@ -1,11 +1,14 @@
-/*Princípio da responsabilidade única - código ruim*/
+/*Princípio da responsabilidade única - código bom*/
 
 #include <stdio.h>
 #include <stdlib.h>
 
-void calcularRetangulo(float base, float altura, float *area, float *perimetro) {
-    *area = base * altura;
-    *perimetro = 2 * (base + altura);
+float calcularAreaRetangulo(float base, float altura) {
+    return base * altura;
+}
+
+float calcularPerimetroRetangulo(float base, float altura) {
+    return 2 * (base + altura);
 }
 
 void exibirResultados(float base, float altura, float area, float perimetro) {
@@ -26,7 +29,8 @@ int main() {
     printf("Digite a altura do retangulo: ");
     scanf("%f", &altura);
 
-    calcularRetangulo(base, altura, &area, &perimetro);
+    area = calcularAreaRetangulo(base, altura);
+    perimetro = calcularPerimetroRetangulo(base, altura);
 
     exibirResultados(base, altura, area, perimetro);
 
