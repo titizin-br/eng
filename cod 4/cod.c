@@ -1,45 +1,56 @@
-/*Princípio Aberto-Fechado - código ruim*/
+/*Princípio Aberto-Fechado - código bom*/
 
 #include <stdio.h>
 
 typedef struct {
-    float price;
+    float (*calculatePrice)(void *product);
 } Product;
 
-float calculateTotalPrice(Product *products, int numProducts) {
-    float totalPrice = 0.0f;
+typedef struct {
+    Product base;
+    float price;
+} NormalProduct;
 
-    for (int i = 0; i < numProducts; i++) {
-        totalPrice += products[i].price;
-    }
-    return totalPrice;
+float calculateNormalProductPrice(void *product) {
+    NormalProduct *normalProduct = (NormalProduct *)product;
+
+    return normalProduct->price;
 }
 
 typedef struct {
+    Product base;
     float price;
     float discount;
 } DiscountProduct;
 
-float calculateTotalPriceWithDiscount(DiscountProduct *products, int numProducts) {
-    float totalPrice = 0.0f;
+float calculateDiscountProductPrice(void *product) {
+    DiscountProduct *discountProduct = (DiscountProduct *)product;
 
-    for (int i = 0; i < numProducts; i++) {
-        float discountedPrice = products[i].price * (1.0f - products[i].discount);
-        totalPrice += discountedPrice;
-    }
-    return totalPrice;
+    return discountProduct->price * (1.0f - discountProduct->discount);
 }
 
 int main() {
-    Product products[] = {{10.0f}, {20.0f}, {30.0f}};
+    NormalProduct normalProducts[] = {{{calculateNormalProductPrice}, 10.0f}, {{calculateNormalProductPrice}, 20.0f}, {{calculateNormalProductPrice}, 30.0f}};
+    int numNormalProducts = sizeof(normalProducts) / sizeof(normalProducts[0]);
 
-    int numProducts = sizeof(products) / sizeof(products[0]);
-    printf("Total price: %.2f\n", calculateTotalPrice(products, numProducts));
+    float totalPrice = 0.0f;
 
-    DiscountProduct discountProducts[] = {{10.0f, 0.1f}, {20.0f, 0.2f}, {30.0f, 0.3f}};
-    
+    for (int i = 0; i < numNormalProducts; i++) {
+        totalPrice += normalProducts[i].base.calculatePrice(&normalProducts[i]);
+    }
+
+    printf("Total price of normal products: %.2f\n", totalPrice);
+
+    DiscountProduct discountProducts[] = {{{calculateDiscountProductPrice}, 10.0f, 0.1f}, {{calculateDiscountProductPrice}, 20.0f, 0.2f}, {{calculateDiscountProductPrice}, 30.0f, 0.3f}};
     int numDiscountProducts = sizeof(discountProducts) / sizeof(discountProducts[0]);
-    printf("Total price with discount: %.2f\n", calculateTotalPriceWithDiscount(discountProducts, numDiscountProducts));
+
+    totalPrice = 0.0f;
+
+    for (int i = 0; i < numDiscountProducts; i++) {
+        totalPrice += discountProducts[i].base.calculatePrice(&discountProducts[i]);
+    }
+    
+    printf("Total price of discount products: %.2f\n", totalPrice);
 
     return 0;
 }
